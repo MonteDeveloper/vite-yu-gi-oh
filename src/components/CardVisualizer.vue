@@ -12,17 +12,19 @@ export default {
 </script>
 
 <template>
-    <div class="text-center text-white">
-        <div class="d-flex flex-wrap justify-content-center align-items-stretched pt-5">
+    <div class="container text-center text-white">
+        <div class="row row-cols-6 justify-content-center pt-5 g-3">
             <!-- CARDS -->
-            <div v-for="card in cards" class="p-2 col-2 position-relative">
-                <!-- CARD INFO HOVERED -->
-                <div class="my-cardInfo p-3 rounded my-bgSecondary position-absolute top-50 start-50 translate-middle">
-                    Price: ${{ card.card_prices[0].cardmarket_price }}
-                </div>
-                <div class="my-card p-3 rounded my-bgSecondary">
-                    <img class="img-fluid" :src="card.card_images[0].image_url" alt="yugiImg">
-                    <h3 class="h6 mt-3">{{ card.name }}</h3>
+            <div v-for="card in cards" class="my-card position-relative">
+                <div class="my-bgSecondary rounded h-100">
+                    <!-- CARD INFO HOVERED -->
+                    <div class="my-hoveredBox position-absolute top-50 start-50 translate-middle">
+                        Price: ${{ card.card_prices[0].cardmarket_price }}
+                    </div>
+                    <div class="my-box p-3">
+                        <img class="img-fluid" :src="card.card_images[0].image_url" alt="yugiImg">
+                        <h3 class="h6 mt-3">{{ card.name }}</h3>
+                    </div>
                 </div>
             </div>
         </div>
@@ -32,14 +34,22 @@ export default {
 <style lang="scss" scoped>
 
 .my-card{
-    transition: opacity .2s;
+    .my-box{
+        transition: opacity .2s;
+    }
 
-    &:hover{
+    .my-hoveredBox{
         opacity: 0;
+        transition: opacity .2s;
+    }    
+    
+    &:hover .my-box{
+        opacity: 0;
+    }
+
+    &:hover .my-hoveredBox{
+        opacity: 1;
     }
 }
 
-.my-cardInfo{
-    z-index: -999;
-}
 </style>
