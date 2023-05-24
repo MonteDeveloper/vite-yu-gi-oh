@@ -1,58 +1,37 @@
 <script>
 import CardVisualizer from './components/CardVisualizer.vue'
+import DynamicSelect from './components/DynamicSelect.vue'
 
-import { store } from './data/store.js';
+import { yugiCardDB } from './data/yugiCardDB.js';
 
 export default {
   name: "App",
   components: {
-    CardVisualizer
+    CardVisualizer,
+    DynamicSelect
   },
   data() {
     return {
       nCardsToLoad: 12,
       actualCardsVisualized: 0,
-      store //equivalente a scrivere --> store: store
+      yugiCardDB
     }
   },
   methods: {
-    loadNewCards() {
-      if (!this.store.loading) {
-        const saveActualStoreData = this.store.yugiCards;
-        this.store.loading = true;
-
-        this.axios.get(`${this.store.urlAPI}?num=${this.nCardsToLoad}&offset=${this.actualCardsVisualized}`).then(r => {
-          //Se completata correttamente stampo il dato
-          console.log("Ricevuto: ", r.data.data);
-          //Aggiungo i dati nello store per riutilizzarli in altri componenti
-          this.store.yugiCards.push(...r.data.data);
-          console.log(this.store.yugiCards);
-          this.actualCardsVisualized += this.nCardsToLoad;
-          this.store.loading = false;
-        }).catch(errore => {
-          //In caso di problemi, mostro l'errore in console
-          console.error("Qualcosa è andato storto", errore);
-          //Mi assicuro che il dato nello store sia resettato a prima della chiamata
-          this.store.yugiCards = saveActualStoreData;
-          //Il caricamento è comunque finito anche in questo caso
-          this.store.loading = false;
-        });
-      }
-    }
   },
   mounted() {
-    //carico le prime carte da visualizzare in pagina
-    this.loadNewCards();
+    this.yugiCardDB.startDB();
   }
 }
 </script>
 
 <template>
   <div class="container">
-    <CardVisualizer :cards="store.yugiCards"/>
+    <DynamicSelect :options="yugiCardDB.listOfArchetypes"/>
+    <CardVisualizer :cards="yugiCardDB.cardLoaded"/>
     <div class="text-center m-3">
-      <button class="btn btn-light" v-show="!store.loading" @click="loadNewCards()">LOAD MORE</button>
-      <i v-show="store.loading" class="my-loader fa-solid fa-circle-notch text-white fs-3"></i>
+      <button class="btn btn-light" v-show="!yugiCardDB.loading" @click="yugiCardDB.loadNewCards()">LOAD MORE</button>
+      <i v-show="yugiCardDB.loading" class="my-loader fa-solid fa-circle-notch text-white fs-3"></i>
     </div>
   </div>
 </template>
