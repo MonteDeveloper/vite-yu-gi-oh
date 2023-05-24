@@ -13,7 +13,7 @@ export default {
 
 <template>
     <div class="container text-center text-white">
-        <div class="row row-cols-6 justify-content-center pt-5 g-3">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6 justify-content-center pt-5 g-3">
             <!-- CARDS -->
             <div v-for="card in cards" class="my-card position-relative">
                 <div class="my-bgSecondary rounded h-100">

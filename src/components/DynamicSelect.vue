@@ -13,7 +13,9 @@ export default {
     },
     methods: {
         optionChanged(){
-            console.log(this.yugiCardDB.archetypeSelected);
+            this.yugiCardDB.resetCardLoaded();
+            this.yugiCardDB.loadNewCards();
+            this.yugiCardDB.updateTotalCardsToLoad();
         }
     },
     mounted() {

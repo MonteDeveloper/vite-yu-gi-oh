@@ -27,10 +27,11 @@ export default {
 
 <template>
   <div class="container">
+    <h2 class="text-white text-center my-5">CARDS NUMBER: {{ yugiCardDB.totalCardsToLoad }}</h2>
     <DynamicSelect :options="yugiCardDB.listOfArchetypes"/>
     <CardVisualizer :cards="yugiCardDB.cardLoaded"/>
     <div class="text-center m-3">
-      <button class="btn btn-light" v-show="!yugiCardDB.loading" @click="yugiCardDB.loadNewCards()">LOAD MORE</button>
+      <button class="btn btn-light" v-show="!yugiCardDB.loading && yugiCardDB.cardLoaded.length < yugiCardDB.totalCardsToLoad" @click="yugiCardDB.loadNewCards()">LOAD MORE</button>
       <i v-show="yugiCardDB.loading" class="my-loader fa-solid fa-circle-notch text-white fs-3"></i>
     </div>
   </div>
